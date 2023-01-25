@@ -10,7 +10,7 @@ class Node:
         self.isBomb = False
         self.isFlagged = False
         self.isRevealed = False
-        self.button = Button(gridFrame, text=" ", width=2, height=1, command=self.reveal, bg="#e6e6e6").grid(row=self.y, column=self.x)
+        self.button = Button(gridFrame, text=" ", width=2, height=1, command=self.reveal, bg="#808080").grid(row=self.y, column=self.x)
 
     def reveal(self):
         if self.isBomb:

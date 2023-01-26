@@ -1,6 +1,14 @@
 from tkinter import *
 import random
 
+global xWidthIn, yHeightIn, mineNumIn
+
+# Change these values to change the size of the grid and the number of mines, when changing the size of the grid, make sure to change the size of the window 
+xWidthIn = 20
+yHeightIn = 20
+mineNumIn = 40
+windiowSize = "500x600"
+
 class Node:
     def __init__(self, x, y, value):
         self.x = x 
@@ -16,10 +24,7 @@ class Node:
 
     def reveal(self, *event):
         if self.isBomb:
-            # print("You lose!")
             self.button = Button(gridFrame, text=" ", width=2, height=1, bg="#f00").grid(row=self.y, column=self.x)
-            # time.sleep(3)
-            # revealAll()
         else:
             self.isRevealed = True
             match self.value:
@@ -69,13 +74,13 @@ def revealAll():
                 grid[x][y].reveal()
 
 root = Tk()
-root.geometry("500x600")
+root.geometry(windiowSize)
 
 global gridFrame
 gridFrame = Frame(root)
 gridFrame.pack()
 
-def setup(xWidth=20, yHeight=20, mineNum=40):
+def setup(xWidth=xWidthIn, yHeight=yHeightIn, mineNum=mineNumIn):
     global grid, xWidth2, yHeight2
     xWidth2, yHeight2 = xWidth, yHeight
     grid = [[0 for y in range(yHeight)] for x in range(xWidth)]

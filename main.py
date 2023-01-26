@@ -4,14 +4,14 @@ import random
 global xWidthIn, yHeightIn, mineNumIn
 
 # Change these values to change the size of the grid and the number of mines, when changing the size of the grid, make sure to change the size of the window 
-xWidthIn = 20
+xWidthIn = 20 # Can't do large sizes due to recursion limit
 yHeightIn = 20
 mineNumIn = 40
 windiowSize = "500x600"
 
 class Node:
     def __init__(self, x, y, value):
-        self.x = x 
+        self.x = x
         self.y = y
         self.value = value
         self.isBomb = False

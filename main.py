@@ -1,6 +1,5 @@
 from tkinter import *
 import random
-import time
 
 class Node:
     def __init__(self, x, y, value):
@@ -90,7 +89,6 @@ def setup(xWidth=20, yHeight=20, mineNum=40):
         if not grid[x][y].isBomb:
             grid[x][y].isBomb = True
             mineNum -= 1
-            # print("Mine placed at " + str(x) + ", " + str(y))
 
     for x in range(xWidth):
         for y in range(yHeight):
@@ -100,10 +98,6 @@ def setup(xWidth=20, yHeight=20, mineNum=40):
                         if x2 >= 0 and x2 < xWidth and y2 >= 0 and y2 < yHeight:
                             if grid[x2][y2].isBomb:
                                 grid[x][y].value += 1
-
-# for x in range(xWidth):
-#     for y in range(yHeight):
-#         grid[x][y].reveal()
 
 Button(root, text="Reset", command=setup).pack()
 Button(root, text="Reveal", command=revealAll).pack()

@@ -10,9 +10,12 @@ class Node:
         self.isBomb = False
         self.isFlagged = False
         self.isRevealed = False
-        self.button = Button(gridFrame, text=" ", width=2, height=1, command=self.reveal, bg="#808080").grid(row=self.y, column=self.x)
+        self.button = Button(gridFrame, text=" ", width=2, height=1, bg="#808080")
+        self.button.grid(row=self.y, column=self.x)
+        self.button.bind("<Button-1>", self.reveal)
+        self.button.bind("<Button-3>", self.flag)
 
-    def reveal(self):
+    def reveal(self, *event):
         if self.isBomb:
             # print("You lose!")
             self.button = Button(gridFrame, text=" ", width=2, height=1, bg="#f00").grid(row=self.y, column=self.x)
@@ -45,6 +48,20 @@ class Node:
                     self.button = Button(gridFrame, text="7", width=2, height=1, fg="#020202").grid(row=self.y, column=self.x)
                 case 8:
                     self.button = Button(gridFrame, text="8", width=2, height=1, fg="#818181").grid(row=self.y, column=self.x)
+
+    def flag(self, event):
+        if self.isFlagged:
+            self.isFlagged = False
+            self.button = Button(gridFrame, text=" ", width=2, height=1, bg="#808080")
+            self.button.grid(row=self.y, column=self.x)
+            self.button.bind("<Button-1>", self.reveal)
+            self.button.bind("<Button-3>", self.flag)
+        else:
+            self.isFlagged = True
+            self.button = Button(gridFrame, text="F", width=2, height=1, bg="#000", fg="#f00")
+            self.button.grid(row=self.y, column=self.x)
+            self.button.bind("<Button-1>", self.reveal)
+            self.button.bind("<Button-3>", self.flag)
 
 def revealAll():
     for x in range(xWidth2):

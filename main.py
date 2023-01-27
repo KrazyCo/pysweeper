@@ -27,6 +27,7 @@ class Node:
         if self.isBomb:
             self.button = Button(gridFrame, text=" ", width=2, height=1, bg=("#f00" if normal else ("#8b0000" if not self.isFlagged else "#0f0"))).grid(row=self.y, column=self.x)
             self.isRevealed = True
+            revealAll()
         else:
             self.isRevealed = True
             match self.value:
@@ -54,6 +55,8 @@ class Node:
                     self.button = Button(gridFrame, text="7", width=2, height=1, fg="#020202", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 8:
                     self.button = Button(gridFrame, text="8", width=2, height=1, fg="#818181", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
+            if checkWin():
+                revealAll()
 
     def flag(self, event):
         if self.isFlagged:
@@ -68,6 +71,15 @@ class Node:
             self.button.grid(row=self.y, column=self.x)
             self.button.bind("<Button-1>", self.reveal)
             self.button.bind("<Button-3>", self.flag)
+        if checkWin():
+            revealAll()
+
+def checkWin():
+    for x in range(xWidth2):
+        for y in range(yHeight2):
+            if not grid[x][y].isBomb and not grid[x][y].isRevealed:
+                return False
+    return True
 
 def revealAll():
     for x in range(xWidth2):

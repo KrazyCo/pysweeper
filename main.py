@@ -25,7 +25,7 @@ class Node:
     def reveal(self, event):
         normal = False if event == "All" else True
         if self.isBomb:
-            self.button = Button(gridFrame, text=" ", width=2, height=1, bg=("#f00" if normal else ("#8b0000" if not self.isFlagged else "#bd2ed6"))).grid(row=self.y, column=self.x)
+            self.button = Button(gridFrame, text=" ", width=2, height=1, bg=("#f00" if normal else ("#8b0000" if not self.isFlagged else "#0f0"))).grid(row=self.y, column=self.x)
             self.isRevealed = True
         else:
             self.isRevealed = True

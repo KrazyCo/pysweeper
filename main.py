@@ -22,36 +22,38 @@ class Node:
         self.button.bind("<Button-1>", self.reveal)
         self.button.bind("<Button-3>", self.flag)
 
-    def reveal(self, *event):
+    def reveal(self, event):
+        normal = False if event == "All" else True
         if self.isBomb:
-            self.button = Button(gridFrame, text=" ", width=2, height=1, bg="#f00").grid(row=self.y, column=self.x)
+            self.button = Button(gridFrame, text=" ", width=2, height=1, bg=("#f00" if normal else ("#8b0000" if not self.isFlagged else "#bd2ed6"))).grid(row=self.y, column=self.x)
+            self.isRevealed = True
         else:
             self.isRevealed = True
             match self.value:
                 case 0:
-                    self.button = Button(gridFrame, text=" ", width=2, height=1).grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text=" ", width=2, height=1, bg=("#fff" if normal else "#aaaaaa")).grid(row=self.y, column=self.x)
                     for x2 in range(self.x - 1, self.x + 2):
                         for y2 in range(self.y - 1, self.y + 2):
                             if not (x2 == self.x and y2 == self.y):
                                 if x2 >= 0 and x2 < xWidth2 and y2 >= 0 and y2 < yHeight2:
                                     if not grid[x2][y2].isRevealed:
-                                        grid[x2][y2].reveal()
+                                        grid[x2][y2].reveal("Recursion" if normal else "All")
                 case 1:
-                    self.button = Button(gridFrame, text="1", width=2, height=1, fg="#0000f2").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="1", width=2, height=1, fg="#0000f2", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 2:
-                    self.button = Button(gridFrame, text="2", width=2, height=1, fg="#067d00").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="2", width=2, height=1, fg="#067d00", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 3:
-                    self.button = Button(gridFrame, text="3", width=2, height=1, fg="#fc0507").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="3", width=2, height=1, fg="#fc0507", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 4:
-                    self.button = Button(gridFrame, text="4", width=2, height=1, fg="#010176").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="4", width=2, height=1, fg="#010176", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 5:
-                    self.button = Button(gridFrame, text="5", width=2, height=1, fg="#84060d").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="5", width=2, height=1, fg="#84060d", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 6:
-                    self.button = Button(gridFrame, text="6", width=2, height=1, fg="#027d8b").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="6", width=2, height=1, fg="#027d8b", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 7:
-                    self.button = Button(gridFrame, text="7", width=2, height=1, fg="#020202").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="7", width=2, height=1, fg="#020202", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
                 case 8:
-                    self.button = Button(gridFrame, text="8", width=2, height=1, fg="#818181").grid(row=self.y, column=self.x)
+                    self.button = Button(gridFrame, text="8", width=2, height=1, fg="#818181", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
 
     def flag(self, event):
         if self.isFlagged:
@@ -71,7 +73,7 @@ def revealAll():
     for x in range(xWidth2):
         for y in range(yHeight2):
             if not grid[x][y].isRevealed:
-                grid[x][y].reveal()
+                grid[x][y].reveal("All")
 
 root = Tk()
 root.geometry(windiowSize)

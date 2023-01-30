@@ -6,7 +6,7 @@ global xWidthIn, yHeightIn, mineNumIn
 # Change these values to change the size of the grid and the number of mines, when changing the size of the grid, make sure to change the size of the window 
 xWidthIn = 20 # Can't do super large sizes due to recursion limit
 yHeightIn = 20 # Reccomend 20x20 at 40 mines, 500x600 window size
-mineNumIn = 40
+mineNumIn = 4
 windiowSize = "500x600"
 
 class Node:
@@ -23,11 +23,12 @@ class Node:
         self.button.bind("<Button-3>", self.flag)
 
     def reveal(self, event):
-        normal = False if event == "All" else True
+        normal = False if event == "All" or event == "Won" else True
         if self.isBomb:
-            self.button = Button(gridFrame, text="X", width=2, height=1, bg=("#f00" if normal else ("#8b0000" if not self.isFlagged else "#0f0"))).grid(row=self.y, column=self.x)
+            self.button = Button(gridFrame, text="X", width=2, height=1, bg=("#f00" if normal else (("#8b0000" if not event == "Won" else "#008100") if not self.isFlagged else "#0f0"))).grid(row=self.y, column=self.x)
             self.isRevealed = True
-            revealAll()
+            print(f"{event = }")
+            if normal: revealAll()
         else:
             self.isRevealed = True
             match self.value:
@@ -56,7 +57,8 @@ class Node:
                 case 8:
                     self.button = Button(gridFrame, text="8", width=2, height=1, fg="#818181", bg=("#fff" if normal else ("#aaaaaa" if not self.isFlagged else "#da8ee8"))).grid(row=self.y, column=self.x)
             if checkWin():
-                revealAll()
+                revealAll("Won")
+                print(f"{revealAll() = }")
 
     def flag(self, event):
         if self.isFlagged:
@@ -72,7 +74,7 @@ class Node:
             self.button.bind("<Button-1>", self.reveal)
             self.button.bind("<Button-3>", self.flag)
         if checkWin():
-            revealAll()
+            revealAll("Won")
 
 def checkWin():
     for x in range(xWidth2):
@@ -81,11 +83,11 @@ def checkWin():
                 return False
     return True
 
-def revealAll():
+def revealAll(event="All"):
     for x in range(xWidth2):
         for y in range(yHeight2):
             if not grid[x][y].isRevealed:
-                grid[x][y].reveal("All")
+                grid[x][y].reveal(event)
 
 root = Tk()
 root.geometry(windiowSize)
